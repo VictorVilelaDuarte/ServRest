@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   Container,
   ProductList,
@@ -37,9 +38,14 @@ export default function Menu({route, navigation}) {
   const [order, setOrder] = useState([]);
 
   useEffect(() => {
-    const list = route.params;
-    setList(list);
-    setFinalList(list);
+    // const list = route.params;
+    // console.tron.log(route.params);
+    async function loadProducts() {
+      const prodList = await AsyncStorage.getItem('Prod');
+      setList(JSON.parse(prodList));
+      setFinalList(JSON.parse(prodList));
+    }
+    loadProducts();
   }, []);
 
   function search(value) {
@@ -69,7 +75,6 @@ export default function Menu({route, navigation}) {
     setFinalPrice(
       addproduct.PROD_VLVENDA * parseFloat(qtd) + parseFloat(obsPrice),
     );
-    console.tron.log(finalPrice);
   }, [addproduct, qtd, obsPrice]);
 
   function show() {
@@ -92,7 +97,7 @@ export default function Menu({route, navigation}) {
   }
 
   function handleOrder() {
-    navigation.navigate('Order', {
+    navigation.push('Order', {
       order,
     });
   }
@@ -121,7 +126,6 @@ export default function Menu({route, navigation}) {
             />
           </InputView>
         </SearchView>
-
         <List>
           {finalList.map(item => (
             <TouchableOpacity onPress={() => handleToogleModal(item)}>
@@ -146,20 +150,15 @@ export default function Menu({route, navigation}) {
         swipeDirection={['up']}
         backdropColor="#1D2671"
         backdropOpacity={0.3}>
-        <ModalButtonClose>
-          <TouchableOpacity onPress={() => handleToogleModal()}>
-            <Icon
-              name="clear"
-              style={{marginLeft: 20}}
-              size={35}
-              color="#f00"
-            />
-          </TouchableOpacity>
-        </ModalButtonClose>
         <ModalContainer>
           {addproduct.PROD_VLVENDA ? (
             <>
               <ModalTitleView>
+                <ModalButtonClose>
+                  <TouchableOpacity onPress={() => handleToogleModal()}>
+                    <Icon name="clear" size={35} color="#f00" />
+                  </TouchableOpacity>
+                </ModalButtonClose>
                 <ModalTitle>{addproduct.PROD_DESCR}</ModalTitle>
               </ModalTitleView>
               <InputPriceViewModal>

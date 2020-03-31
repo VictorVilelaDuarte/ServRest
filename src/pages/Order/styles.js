@@ -11,7 +11,6 @@ export const ListView = styled.View`
   top: 10px;
   max-height: 50%;
   width: 100%;
-  border: 1px solid red;
 `;
 
 export const List = styled.ScrollView.attrs({
@@ -76,4 +75,20 @@ export const InputViewTbale = styled.View`
   border-color: #555;
   border-width: 1px;
   border-radius: 5px;
+`;
+
+export const ButtonView = styled.TouchableOpacity`
+  height: 50px;
+  background: #552c6e;
+  width: 40%;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+`;
+
+export const ButtonText = styled.Text`
+  color: #fff;
+  font-weight: bold;
+  font-size: 15px;
 `;

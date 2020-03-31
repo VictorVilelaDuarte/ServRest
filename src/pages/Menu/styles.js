@@ -111,23 +111,32 @@ export const ModalIndicator = styled(Modal)`
   justify-content: flex-start;
 `;
 export const ModalButtonClose = styled.TouchableOpacity`
+  align-self: flex-start;
   height: 50px;
   margin-top: 10px;
-  /* border: 1px solid black; */
 `;
 export const ModalContainer = styled.View`
   /* border: 1px solid red; */
   /* justify-content: space-around; */
+  padding: 0 10px;
   margin-top: 10px;
   align-items: center;
   height: 100%;
 `;
 
-export const ModalTitleView = styled.View``;
+export const ModalTitleView = styled.View`
+  max-width: 100%;
+  flex-direction: row;
+  align-items: center;
+`;
 
-export const ModalTitle = styled.Text`
+export const ModalTitle = styled.Text.attrs({
+  numberOfLines: 1,
+})`
+  width: 90%;
   text-align: center;
-  font-size: 16px;
+  font-weight: bold;
+  font-size: 18px;
 `;
 
 export const ButtonView = styled.TouchableOpacity`

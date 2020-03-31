@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Toast from 'react-native-root-toast';
+import AsyncStorage from '@react-native-community/async-storage';
+import api from '~/services/api';
 
 import {
   Container,
@@ -15,11 +18,18 @@ import {
   TInput,
   ListView,
   InputViewTbale,
+  ButtonView,
+  ButtonText,
 } from './styles';
 
 export default function Order({route, navigation}) {
   const [order, setOrder] = useState([]);
   const [total, setTotal] = useState(0);
+  const [comanda, setComanda] = useState('');
+  const [verifyTable, setVerifyTable] = useState(true);
+  const [editable, setEditable] = useState(false);
+  const [table, setTable] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const prodList = route.params.order;
@@ -38,6 +48,118 @@ export default function Order({route, navigation}) {
     setTotal(finalPrice);
   }, [order]);
 
+  useEffect(() => {
+    function searchTable() {
+      const arr = [
+        {
+          cartao: comanda,
+        },
+      ];
+
+      api
+        .post('/mesa', arr)
+        .then(async resp => {
+          if (resp.data[0].mesa === 'NULO') {
+            setEditable(true);
+            setVerifyTable(true);
+            Toast.show('Comanda sem mesa', {
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+              backgroundColor: '#B24327',
+              opacity: '0.9',
+              shadow: true,
+              animation: true,
+              hideOnPress: true,
+            });
+          } else {
+            setVerifyTable(true);
+            setTable(resp.data[0].mesa.toString());
+          }
+        })
+        .catch(() => {
+          Toast.show('Erro ao conectar com o servidor', {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+            backgroundColor: '#B24327',
+            opacity: '0.9',
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+          });
+        });
+    }
+    if (comanda.length === 4) {
+      searchTable();
+    } else {
+      setVerifyTable(false);
+      setTable('');
+    }
+  }, [comanda]);
+
+  async function send() {
+    setLoading(true);
+    const garcom = await AsyncStorage.getItem('User');
+    const pedido = [];
+
+    order.map(item => {
+      const obj = {
+        PROD_CODIG: item.PROD_CODIG,
+        VENDA_QTDE: item.VENDA_QTDE,
+        VENDA_PUNIT: item.VENDA_PUNIT,
+        VENDA_PTOTAL: item.PROD_TOTAL,
+        VENDA_OBS: item.VENDA_OBS,
+        VENDA_OBVALOR: item.VENDA_OBVALOR,
+      };
+      pedido.push(obj);
+    });
+
+    const json = {
+      MESA: table,
+      COMANDA: comanda,
+      GARCOM: garcom,
+      PEDIDO: pedido,
+    };
+
+    // console.tron.log(json);
+    await api
+      .post('/salles', json)
+      .then(() => {
+        setLoading(false);
+        // Toast.show('Pedido enviado com sucesso!', {
+        //   duration: Toast.durations.LONG,
+        //   position: Toast.positions.TOP,
+        //   backgroundColor: '#58AEE0',
+        //   opacity: '0.9',
+        //   shadow: true,
+        //   animation: true,
+        //   hideOnPress: true,
+        // });
+        Alert.alert('Pedido enviado com sucesso!', '', [
+          {
+            text: 'OK',
+            onPress: () => navigation.push('Menu'),
+          },
+        ]);
+      })
+      .catch(() => {
+        setLoading(false);
+        Toast.show('Erro ao enviar pedido', {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+          backgroundColor: '#B24327',
+          opacity: '0.9',
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+        });
+        Alert.alert('Pedido enviado com sucesso!', '', [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('SignIn'),
+          },
+        ]);
+      });
+  }
   return (
     <Container>
       <ListView>
@@ -71,11 +193,36 @@ export default function Order({route, navigation}) {
         <TLabel>Valor final do pedido: R${total.toString()}</TLabel>
       </InputViewModal>
       <InputViewTbale>
-        <TInput placeholder="Comanda" keyboardType="numeric" />
+        <TInput
+          maxLength={4}
+          placeholder="Comanda"
+          onChangeText={setComanda}
+          keyboardType="numeric"
+        />
       </InputViewTbale>
-      <InputViewTbale>
-        <TInput placeholder="Mesa" keyboardType="numeric" />
-      </InputViewTbale>
+
+      {verifyTable ? (
+        <>
+          <InputViewTbale>
+            <TInput
+              defaultValue={table.length ? table : ''}
+              editable={editable}
+              placeholder="Mesa"
+              keyboardType="numeric"
+              onChangeText={setTable}
+            />
+          </InputViewTbale>
+          <ButtonView disabled={!table} onPress={() => send()}>
+            {table ? (
+              <ButtonText>Enviar pedido</ButtonText>
+            ) : (
+              <ButtonText>Digite a mesa</ButtonText>
+            )}
+          </ButtonView>
+        </>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 }

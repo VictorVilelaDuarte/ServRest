@@ -23,9 +23,9 @@ export default function SignIn({navigation}) {
   const [password, setPassword] = useState('');
 
   // useEffect(async () => {
-  //   const user = await AsyncStorage.getItem('User');
-  //   if (user) {
-  //     navigation.navigate('Menu');
+  //   const userLogged = await AsyncStorage.getItem('User');
+  //   if (userLogged) {
+  //     // navigation.navigate('Menu');
   //   }
   // }, []);
 
@@ -55,10 +55,14 @@ export default function SignIn({navigation}) {
     api
       .post('/users/login', arr)
       .then(async resp => {
-        console.tron.log('oi');
         if (resp.data.status) {
           await AsyncStorage.setItem('User', arr[0].id);
-          navigation.navigate('Menu', resp.data.produtos);
+          await AsyncStorage.setItem('Pass', arr[0].senha);
+          await AsyncStorage.setItem(
+            'Prod',
+            JSON.stringify(resp.data.produtos),
+          );
+          navigation.navigate('Menu');
         } else {
           Toast.show('Login e/ou senha errado(s)', {
             duration: Toast.durations.LONG,
