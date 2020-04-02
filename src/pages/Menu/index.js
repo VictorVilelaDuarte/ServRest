@@ -31,7 +31,7 @@ export default function Menu({route, navigation}) {
   const [finalList, setFinalList] = useState([]);
   const [addproduct, setAddproduct] = useState({});
   const [finalPrice, setFinalPrice] = useState(0);
-  const [qtd, setQtd] = useState(0);
+  const [qtd, setQtd] = useState(1);
   const [obs, setObs] = useState('');
   const [obsPrice, setObsPrice] = useState('');
   const [modal, setModal] = useState(false);
@@ -62,7 +62,7 @@ export default function Menu({route, navigation}) {
     setFinalPrice(0);
     setObs('');
     setObsPrice(0);
-    setQtd(0);
+    setQtd(1);
     if (!item) {
       setModal(!modal);
     } else {
@@ -162,8 +162,9 @@ export default function Menu({route, navigation}) {
                 <ModalTitle>{addproduct.PROD_DESCR}</ModalTitle>
               </ModalTitleView>
               <InputPriceViewModal>
+                <ProductPrice> Quantidade: </ProductPrice>
                 <TInput
-                  placeholder="Quantidade do produto"
+                  defaultValue="1"
                   keyboardType="numeric"
                   onChangeText={setQtd}
                 />
@@ -190,6 +191,7 @@ export default function Menu({route, navigation}) {
                   editable={false}
                   defaultValue={`R$${finalPrice.toString()}`}
                 />
+                {console.tron.log(qtd)}
               </InputViewModal>
               {qtd ? (
                 <ButtonView onPress={() => show()}>

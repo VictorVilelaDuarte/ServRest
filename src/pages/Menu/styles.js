@@ -8,6 +8,10 @@ export const Container = styled.View`
   padding: 0 10px;
 `;
 
+export const QtdView = styled.View`
+  flex-direction: row;
+`;
+
 export const List = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
 })`
