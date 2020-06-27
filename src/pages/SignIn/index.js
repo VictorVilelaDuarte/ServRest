@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect} from 'react';
-import LottieView from 'lottie-react-native';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-root-toast';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   Container,
-  Lottie,
   Form,
   InputView,
   TInput,

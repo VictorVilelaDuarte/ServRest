@@ -29,6 +29,7 @@ export default function Order({route, navigation}) {
   const [verifyTable, setVerifyTable] = useState(true);
   const [editable, setEditable] = useState(false);
   const [table, setTable] = useState('');
+  const [canSend, setCanSend] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -47,6 +48,14 @@ export default function Order({route, navigation}) {
     );
     setTotal(finalPrice);
   }, [order]);
+
+  useEffect(() => {
+    if (table.length === 3) {
+      setCanSend(true);
+    } else {
+      setCanSend(false);
+    }
+  }, [table]);
 
   useEffect(() => {
     function searchTable() {
@@ -88,6 +97,7 @@ export default function Order({route, navigation}) {
           });
         });
     }
+
     if (comanda.length === 4) {
       searchTable();
     } else {
@@ -197,13 +207,14 @@ export default function Order({route, navigation}) {
             <TInput
               defaultValue={table.length ? table : ''}
               editable={editable}
+              maxLength={3}
               placeholder="Mesa"
               keyboardType="numeric"
               onChangeText={setTable}
             />
           </InputViewTbale>
-          <ButtonView disabled={!table} onPress={() => send()}>
-            {table ? (
+          <ButtonView disabled={!canSend} onPress={() => send()}>
+            {canSend ? (
               <ButtonText>Enviar pedido</ButtonText>
             ) : (
               <ButtonText>Digite a mesa</ButtonText>
