@@ -22,13 +22,6 @@ export default function SignIn({navigation}) {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
 
-  // useEffect(async () => {
-  //   const userLogged = await AsyncStorage.getItem('User');
-  //   if (userLogged) {
-  //     // navigation.navigate('Menu');
-  //   }
-  // }, []);
-
   async function handleLogin() {
     if (!user || !password) {
       Toast.show('Digite o login e senha', {

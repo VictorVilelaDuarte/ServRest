@@ -120,20 +120,10 @@ export default function Order({route, navigation}) {
       PEDIDO: pedido,
     };
 
-    // console.tron.log(json);
     await api
       .post('/salles', json)
       .then(() => {
         setLoading(false);
-        // Toast.show('Pedido enviado com sucesso!', {
-        //   duration: Toast.durations.LONG,
-        //   position: Toast.positions.TOP,
-        //   backgroundColor: '#58AEE0',
-        //   opacity: '0.9',
-        //   shadow: true,
-        //   animation: true,
-        //   hideOnPress: true,
-        // });
         Alert.alert('Pedido enviado com sucesso!', '', [
           {
             text: 'OK',

@@ -38,8 +38,6 @@ export default function Menu({route, navigation}) {
   const [order, setOrder] = useState([]);
 
   useEffect(() => {
-    // const list = route.params;
-    // console.tron.log(route.params);
     async function loadProducts() {
       const prodList = await AsyncStorage.getItem('Prod');
       setList(JSON.parse(prodList));
