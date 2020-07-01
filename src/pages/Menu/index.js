@@ -189,7 +189,6 @@ export default function Menu({route, navigation}) {
                   editable={false}
                   defaultValue={`R$${finalPrice.toString()}`}
                 />
-                {console.tron.log(qtd)}
               </InputViewModal>
               {qtd ? (
                 <ButtonView onPress={() => show()}>

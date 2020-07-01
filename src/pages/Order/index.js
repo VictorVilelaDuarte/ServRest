@@ -137,7 +137,7 @@ export default function Order({route, navigation}) {
         Alert.alert('Pedido enviado com sucesso!', '', [
           {
             text: 'OK',
-            onPress: () => navigation.push('Menu'),
+            onPress: () => navigation.navigate('Menu'),
           },
         ]);
       })
@@ -152,7 +152,7 @@ export default function Order({route, navigation}) {
           animation: true,
           hideOnPress: true,
         });
-        Alert.alert('Pedido enviado com sucesso!', '', [
+        Alert.alert('Erro ao enviar pedido!', '', [
           {
             text: 'OK',
             onPress: () => navigation.navigate('SignIn'),
