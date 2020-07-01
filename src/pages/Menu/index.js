@@ -26,7 +26,7 @@ import {
   ModalButtonClose,
 } from './styles';
 
-export default function Menu({route, navigation}) {
+export default function Menu({navigation}) {
   const [list, setList] = useState([]);
   const [finalList, setFinalList] = useState([]);
   const [addproduct, setAddproduct] = useState({});
@@ -171,7 +171,7 @@ export default function Menu({route, navigation}) {
                 <TInput
                   placeholder="Observação"
                   multiline
-                  numberOfLines={4}
+                  numberOfLines={2}
                   onChangeText={setObs}
                 />
               </InputObsView>

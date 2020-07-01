@@ -12,9 +12,7 @@ export const QtdView = styled.View`
   flex-direction: row;
 `;
 
-export const List = styled.ScrollView.attrs({
-  showsVerticalScrollIndicator: false,
-})`
+export const List = styled.ScrollView`
   width: 100%;
 `;
 
@@ -66,7 +64,7 @@ export const InputView = styled.View`
 export const InputObsView = styled.View`
   margin-top: 10px;
   width: 90%;
-  height: 80px;
+  height: 60px;
   flex-direction: row;
   align-items: center;
   border-color: #555;
