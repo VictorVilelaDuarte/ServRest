@@ -91,4 +91,42 @@ export const ButtonText = styled.Text`
   color: #fff;
   font-weight: bold;
   font-size: 15px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ButtonTextAlt = styled.Text`
+  color: #552c6e;
+  font-weight: bold;
+  font-size: 15px;
+`;
+
+export const DivButtons = styled.View`
+  height: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  justify-content: space-around;
+`;
+
+export const BackButton = styled.TouchableOpacity`
+  width: 45%;
+  height: 100%;
+  border-radius: 5px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: #552c6e;
+  border: 1px solid #552c6e;
+`;
+
+export const CancelButton = styled.TouchableOpacity`
+  width: 45%;
+  height: 100%;
+  border-radius: 5px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #552c6e;
 `;

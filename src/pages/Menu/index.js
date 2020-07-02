@@ -45,6 +45,7 @@ export default function Menu({navigation}) {
       setFinalList(JSON.parse(prodList));
     }
     loadProducts();
+    console.log('passou aqui');
   }, []);
 
   function search(value) {

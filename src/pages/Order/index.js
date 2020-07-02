@@ -20,6 +20,10 @@ import {
   InputViewTbale,
   ButtonView,
   ButtonText,
+  DivButtons,
+  BackButton,
+  CancelButton,
+  ButtonTextAlt,
 } from './styles';
 
 export default function Order({route, navigation}) {
@@ -160,8 +164,19 @@ export default function Order({route, navigation}) {
         ]);
       });
   }
+
   return (
     <Container>
+      <DivButtons>
+        <BackButton onPress={() => navigation.pop()}>
+          <Icon name="edit" size={17} color="#fff" />
+          <ButtonText> Editar</ButtonText>
+        </BackButton>
+        <CancelButton onPress={() => navigation.replace('Menu')}>
+          <Icon name="clear" size={17} color="#552c6e" />
+          <ButtonTextAlt> Cancelar</ButtonTextAlt>
+        </CancelButton>
+      </DivButtons>
       <ListView>
         <List>
           {order.map(item => (
