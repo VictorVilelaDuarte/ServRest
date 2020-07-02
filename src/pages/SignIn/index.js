@@ -53,7 +53,7 @@ export default function SignIn({navigation}) {
             'Prod',
             JSON.stringify(resp.data.produtos),
           );
-          navigation.navigate('Menu');
+          navigation.replace('Menu');
         } else {
           Toast.show('Login e/ou senha errado(s)', {
             duration: Toast.durations.LONG,
