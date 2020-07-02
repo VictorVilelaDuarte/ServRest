@@ -32,6 +32,7 @@ export default function Menu({navigation}) {
   const [addproduct, setAddproduct] = useState({});
   const [finalPrice, setFinalPrice] = useState(0);
   const [qtd, setQtd] = useState(1);
+  const [newValue, setNewValue] = useState(0);
   const [obs, setObs] = useState('');
   const [obsPrice, setObsPrice] = useState('');
   const [modal, setModal] = useState(false);
@@ -60,6 +61,7 @@ export default function Menu({navigation}) {
     setFinalPrice(0);
     setObs('');
     setObsPrice(0);
+    setNewValue(0);
     setQtd(1);
     if (!item) {
       setModal(!modal);
@@ -70,10 +72,21 @@ export default function Menu({navigation}) {
   }
 
   useEffect(() => {
+    if (isNaN(parseFloat(qtd))) {
+      setQtd(0);
+    }
+    if (isNaN(parseFloat(obsPrice))) {
+      setObsPrice(0);
+    }
+
+    if (newValue > 0) {
+      addproduct.PROD_VLVENDA = newValue;
+    }
+
     setFinalPrice(
       addproduct.PROD_VLVENDA * parseFloat(qtd) + parseFloat(obsPrice),
     );
-  }, [addproduct, qtd, obsPrice]);
+  }, [addproduct, qtd, obsPrice, newValue]);
 
   function show() {
     const price =
@@ -159,6 +172,17 @@ export default function Menu({navigation}) {
                 </ModalButtonClose>
                 <ModalTitle>{addproduct.PROD_DESCR}</ModalTitle>
               </ModalTitleView>
+              <InputPriceViewModal>
+                <ProductPrice>
+                  {' '}
+                  Mudar valor unitário do produto: R$
+                </ProductPrice>
+                <TInput
+                  defaultValue={String(addproduct.PROD_VLVENDA)}
+                  keyboardType="numeric"
+                  onChangeText={setNewValue}
+                />
+              </InputPriceViewModal>
               <InputPriceViewModal>
                 <ProductPrice> Quantidade: </ProductPrice>
                 <TInput
