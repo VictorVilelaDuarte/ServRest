@@ -141,7 +141,7 @@ export default function Order({route, navigation}) {
         Alert.alert('Pedido enviado com sucesso!', '', [
           {
             text: 'OK',
-            onPress: () => navigation.navigate('Menu'),
+            onPress: () => navigation.replace('Menu'),
           },
         ]);
       })
